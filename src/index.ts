@@ -6,6 +6,9 @@ import { registerCommandHandlers } from './bot/handlers/commandHandlers.js';
 import { registerWelcomeScene } from './bot/scenes/welcome.scene.js';
 import { registerFaqScene } from './bot/scenes/faq.scene.js';
 import { registerInquiryScene } from './bot/scenes/inquiry.scene.js';
+import { registerGoalScene } from './bot/scenes/goal.scene.js';
+import { registerFeaturesScene } from './bot/scenes/features.scene.js';
+import { registerAiHelpScene } from './bot/scenes/ai-help.scene.js';
 import { registerBudgetScene } from './bot/scenes/budget.scene.js';
 import { registerSummaryScene } from './bot/scenes/summary.scene.js';
 
@@ -18,6 +21,9 @@ registerCommandHandlers(bot);
 registerWelcomeScene(bot);
 registerFaqScene(bot);
 registerInquiryScene(bot);
+registerGoalScene(bot);
+registerFeaturesScene(bot);
+registerAiHelpScene(bot);
 registerBudgetScene(bot);
 registerSummaryScene(bot);
 
