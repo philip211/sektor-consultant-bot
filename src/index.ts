@@ -12,32 +12,67 @@ import { registerAiHelpScene } from './bot/scenes/ai-help.scene.js';
 import { registerBudgetScene } from './bot/scenes/budget.scene.js';
 import { registerSummaryScene } from './bot/scenes/summary.scene.js';
 
-const bot = new Telegraf<BotContext>(config.botToken);
-
-bot.use(sessionMiddleware);
-
-registerCommandHandlers(bot);
-
-registerWelcomeScene(bot);
-registerFaqScene(bot);
-registerInquiryScene(bot);
-registerGoalScene(bot);
-registerFeaturesScene(bot);
-registerAiHelpScene(bot);
-registerBudgetScene(bot);
-registerSummaryScene(bot);
-
-bot.catch((err, ctx) => {
-  logger.error(`Error for ${ctx.updateType}`, err);
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-bot.launch()
-  .then(() => {
-    logger.info(`Bot started in ${config.mode} mode`);
-  })
-  .catch((err) => {
-    logger.error('Error starting bot', err);
-  });
+console.log('Environment variables:', {
+  BOT_TOKEN: config.botToken ? 'Set' : 'Not set',
+  OPENAI_API_KEY: config.openaiApiKey ? 'Set' : 'Not set',
+  ADMIN_CHAT_ID: config.adminChatId ? 'Set' : 'Not set',
+  MODE: config.mode
+});
 
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+try {
+  console.log('Creating Telegraf bot instance');
+  const bot = new Telegraf<BotContext>(config.botToken);
+  
+  console.log('Registering middleware');
+  bot.use(sessionMiddleware);
+  
+  console.log('Registering command handlers');
+  registerCommandHandlers(bot);
+  
+  console.log('Registering welcome scene');
+  registerWelcomeScene(bot);
+  
+  console.log('Registering FAQ scene');
+  registerFaqScene(bot);
+  
+  console.log('Registering inquiry scene');
+  registerInquiryScene(bot);
+  
+  console.log('Registering goal scene');
+  registerGoalScene(bot);
+  
+  console.log('Registering features scene');
+  registerFeaturesScene(bot);
+  
+  console.log('Registering AI help scene');
+  registerAiHelpScene(bot);
+  
+  console.log('Registering budget scene');
+  registerBudgetScene(bot);
+  
+  console.log('Registering summary scene');
+  registerSummaryScene(bot);
+  
+  bot.catch((err, ctx) => {
+    logger.error(`Error for ${ctx.updateType}`, err);
+  });
+  
+  console.log('Launching bot');
+  bot.launch()
+    .then(() => {
+      logger.info(`Bot started in ${config.mode} mode`);
+    })
+    .catch((err) => {
+      logger.error('Error starting bot', err);
+      console.error('Bot launch error details:', err);
+    });
+  
+  process.once('SIGINT', () => bot.stop('SIGINT'));
+  process.once('SIGTERM', () => bot.stop('SIGTERM'));
+} catch (error) {
+  console.error('Error in bot initialization:', error);
+}
