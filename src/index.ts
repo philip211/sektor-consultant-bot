@@ -1,5 +1,5 @@
+import './config/env.js';
 import { Telegraf } from 'telegraf';
-import { config } from './config/env.js';
 import { logger } from './utils/logger.js';
 import { BotContext, sessionMiddleware } from './bot/middleware/session.middleware.js';
 import { registerCommandHandlers } from './bot/handlers/commandHandlers.js';
@@ -11,6 +11,13 @@ import { registerFeaturesScene } from './bot/scenes/features.scene.js';
 import { registerAiHelpScene } from './bot/scenes/ai-help.scene.js';
 import { registerBudgetScene } from './bot/scenes/budget.scene.js';
 import { registerSummaryScene } from './bot/scenes/summary.scene.js';
+
+const config = {
+  botToken: process.env.BOT_TOKEN || '',
+  openaiApiKey: process.env.OPENAI_API_KEY || '',
+  adminChatId: process.env.ADMIN_CHAT_ID || '',
+  mode: process.env.MODE || 'development',
+};
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);

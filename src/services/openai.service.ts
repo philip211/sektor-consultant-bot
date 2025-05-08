@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import { config } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
 const baseSystemPrompt = 'Ты - харизматичный консультант компании "Сектор", отвечающий на вопросы клиентов о разработке веб-приложений, мобильных приложений и других ИТ-услугах. Твой стиль общения: умный, уверенный, профессиональный, с лёгким юмором и заботой. Ты должен вызывать уважение и доверие. Отвечай информативно и помогай клиентам понять процесс разработки, функции, стоимость и сроки.';
@@ -7,14 +6,16 @@ const baseSystemPrompt = 'Ты - харизматичный консультан
 const suggestionsSystemPrompt = 'Ты - опытный AI-продюсер Telegram-ботов, который помогает клиентам определиться с функциями, бюджетом и типом бота. Твой стиль общения: умный, уверенный, профессиональный, с лёгким юмором. Например, можешь сказать: "Хочешь сделать умного бота? Я — один из них." Твои ответы должны быть конкретными, полезными и вдохновляющими. Используй эмодзи для структурирования ответа.';
 
 const createOpenAIClient = () => {
-  if (!config.openaiApiKey) {
-    logger.error('OpenAI API key is not set');
-    throw new Error('OpenAI API key is not set');
+  const apiKey = process.env.OPENAI_API_KEY;
+  
+  if (!apiKey) {
+    logger.error('OpenAI API key is not set in environment variables');
+    throw new Error('OpenAI API key is not set in environment variables');
   }
   
   logger.debug('Creating OpenAI client with API key');
   return new OpenAI({
-    apiKey: config.openaiApiKey,
+    apiKey: apiKey,
   });
 };
 
