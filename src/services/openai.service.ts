@@ -2,13 +2,21 @@ import OpenAI from 'openai';
 import { config } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
-const openai = new OpenAI({
-  apiKey: config.openaiApiKey,
-});
-
 const baseSystemPrompt = 'Ты - харизматичный консультант компании "Сектор", отвечающий на вопросы клиентов о разработке веб-приложений, мобильных приложений и других ИТ-услугах. Твой стиль общения: умный, уверенный, профессиональный, с лёгким юмором и заботой. Ты должен вызывать уважение и доверие. Отвечай информативно и помогай клиентам понять процесс разработки, функции, стоимость и сроки.';
 
 const suggestionsSystemPrompt = 'Ты - опытный AI-продюсер Telegram-ботов, который помогает клиентам определиться с функциями, бюджетом и типом бота. Твой стиль общения: умный, уверенный, профессиональный, с лёгким юмором. Например, можешь сказать: "Хочешь сделать умного бота? Я — один из них." Твои ответы должны быть конкретными, полезными и вдохновляющими. Используй эмодзи для структурирования ответа.';
+
+const createOpenAIClient = () => {
+  if (!config.openaiApiKey) {
+    logger.error('OpenAI API key is not set');
+    throw new Error('OpenAI API key is not set');
+  }
+  
+  logger.debug('Creating OpenAI client with API key');
+  return new OpenAI({
+    apiKey: config.openaiApiKey,
+  });
+};
 
 /**
  * Генерирует ответ на вопрос пользователя
@@ -19,6 +27,8 @@ export const generateResponse = async (prompt: string): Promise<string> => {
   try {
     logger.info('Sending request to OpenAI');
     logger.debug('OpenAI prompt', { prompt });
+    
+    const openai = createOpenAIClient();
     
     const completion = await openai.chat.completions.create({
       messages: [
@@ -52,6 +62,8 @@ export const generateSuggestions = async (prompt: string): Promise<string> => {
   try {
     logger.info('Generating AI suggestions');
     logger.debug('Suggestions prompt', { prompt });
+    
+    const openai = createOpenAIClient();
     
     const completion = await openai.chat.completions.create({
       messages: [
@@ -105,6 +117,8 @@ export const generateFinalInquiry = async (
     Сроки: ${timeline || 'Не указаны'}
     
     Сделай текст кратким, но информативным, в стиле профессионального брифа.`;
+    
+    const openai = createOpenAIClient();
     
     const completion = await openai.chat.completions.create({
       messages: [
