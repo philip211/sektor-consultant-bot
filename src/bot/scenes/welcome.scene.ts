@@ -11,7 +11,9 @@ export const registerWelcomeScene = (bot: Telegraf<BotContext>) => {
       contact: '',
       projectType: '',
       projectDescription: '',
-      budget: ''
+      budget: '',
+      features: '',
+      timeline: ''
     };
     await ctx.reply('Давайте оформим вашу заявку. Как к вам обращаться?');
   });

@@ -6,18 +6,21 @@ export interface InquiryData {
   projectType: string;
   projectDescription: string;
   budget: string;
+  features?: string;
+  timeline?: string;
 }
 
 export const formatInquiry = (data: InquiryData): string => {
   logger.info('Formatting inquiry data');
   
   return `
-📋 НОВАЯ ЗАЯВКА 📋
+📩 Новая заявка
 
-👤 Имя: ${data.name}
-📱 Контакт: ${data.contact}
-🔍 Тип проекта: ${data.projectType}
-💬 Описание: ${data.projectDescription}
-💰 Бюджет: ${data.budget}
+🔹 Цель: ${data.projectType}
+🔹 Функции: ${data.features || data.projectDescription}
+🔹 Бюджет: ${data.budget}
+🔹 Сроки: ${data.timeline || 'Не указаны'}
+🔹 Комментарий: ${data.projectDescription}
+👤 От: ${data.name} (${data.contact})
   `.trim();
 };
