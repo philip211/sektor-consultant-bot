@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node src/index.ts"
+  "exec": "npm run build && node dist/index.js"
 }
