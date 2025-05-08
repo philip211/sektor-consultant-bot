@@ -19,9 +19,16 @@ export const sessionMiddleware: Middleware<BotContext> = async (ctx, next) => {
       inquiryData: {
         name: '',
         contact: '',
+        username: '',
         projectType: '',
+        projectGoal: '',
         projectDescription: '',
+        features: '',
+        integrations: '',
+        timeline: '',
         budget: '',
+        specialRequirements: '',
+        clientComment: ''
       },
       currentScene: null,
     });
