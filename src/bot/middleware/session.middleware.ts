@@ -22,6 +22,8 @@ export const sessionMiddleware: Middleware<BotContext> = async (ctx, next) => {
         projectType: '',
         projectDescription: '',
         budget: '',
+        features: '',
+        timeline: ''
       },
       currentScene: null,
     });

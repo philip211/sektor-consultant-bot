@@ -4,8 +4,8 @@
     "main": "src/index.ts",
     "type": "module",
     "scripts": {
-        "dev": "nodemon src/index.ts",
-        "start": "ts-node src/index.ts",
+        "dev": "NODE_OPTIONS=\"--loader ts-node/esm\" nodemon",
+        "start": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node src/index.ts",
         "build": "tsc"
     },
     "dependencies": {

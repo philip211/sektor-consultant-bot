@@ -16,36 +16,15 @@ export const registerInquiryScene = (bot: Telegraf<BotContext>) => {
     if (!ctx.session.inquiryData.contact) {
       ctx.session.inquiryData.contact = ctx.message.text;
       logger.info(`User ${ctx.from.id} set contact: ${ctx.session.inquiryData.contact}`);
-      await ctx.reply('Выберите тип проекта:', {
+      
+      ctx.session.currentScene = 'goal';
+      await ctx.reply('Какова цель вашего проекта?', {
         reply_markup: {
           keyboard: [
-            [{ text: 'Веб-приложение' }, { text: 'Мобильное приложение' }],
-            [{ text: 'Десктопное приложение' }, { text: 'AI-решение' }],
-            [{ text: 'Другое' }]
-          ],
-          resize_keyboard: true
-        }
-      });
-      return;
-    }
-    
-    if (!ctx.session.inquiryData.projectType) {
-      ctx.session.inquiryData.projectType = ctx.message.text;
-      logger.info(`User ${ctx.from.id} set project type: ${ctx.session.inquiryData.projectType}`);
-      await ctx.reply('Опишите ваш проект подробнее:');
-      return;
-    }
-    
-    if (!ctx.session.inquiryData.projectDescription) {
-      ctx.session.inquiryData.projectDescription = ctx.message.text;
-      logger.info(`User ${ctx.from.id} set project description`);
-      ctx.session.currentScene = 'budget';
-      await ctx.reply('Каков примерный бюджет вашего проекта?', {
-        reply_markup: {
-          keyboard: [
-            [{ text: 'до 100 000 ₽' }, { text: '100 000 - 300 000 ₽' }],
-            [{ text: '300 000 - 600 000 ₽' }, { text: 'от 600 000 ₽' }],
-            [{ text: 'Не определен' }]
+            [{ text: 'Инфо-бот' }, { text: 'Бизнес-бот' }],
+            [{ text: 'Бот для продаж' }, { text: 'Развлекательный бот' }],
+            [{ text: 'Другое' }],
+            [{ text: '⬅️ Назад' }, { text: '❌ Отменить' }]
           ],
           resize_keyboard: true
         }
